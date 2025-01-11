@@ -27,8 +27,6 @@ This project was developed with the following technologies:
 
 ## Postman
 
-You can import the Postman collection to test the API endpoints. Download the collection file from the following link:
-
 You can import the Postman collections to test the API endpoints. Download the collection files from the following links:
 
 - [Dishes Collection](./postman/dishes_collection.json)
