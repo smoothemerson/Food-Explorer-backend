@@ -59,31 +59,30 @@ class OrdersController {
 
       return response.status(200).json(ordersWithItems);
     }
-    else {
-      const orders = await knex("ordersItems")
-        .select([
-          "orders.id",
-          "orders.user_id",
-          "orders.orderStatus",
-          "orders.totalPrice",
-          "orders.paymentMethod",
-          "orders.created_at"
-        ])
-        .innerJoin("orders", "orders.id", "ordersItems.order_id")
-        .groupBy("orders.id");
-      
-      const ordersItems = await knex("ordersItems")
-      const ordersWithItems = orders.map(order => {
-        const orderItem = ordersItems.filter(item => item.order_id === order.id)
 
-        return {
-          ...order,
-          items: orderItem
-        }
-      })
+    const orders = await knex("ordersItems")
+      .select([
+        "orders.id",
+        "orders.user_id",
+        "orders.orderStatus",
+        "orders.totalPrice",
+        "orders.paymentMethod",
+        "orders.created_at"
+      ])
+      .innerJoin("orders", "orders.id", "ordersItems.order_id")
+      .groupBy("orders.id");
+    
+    const ordersItems = await knex("ordersItems")
+    const ordersWithItems = orders.map(order => {
+      const orderItem = ordersItems.filter(item => item.order_id === order.id)
 
-      return response.status(200).json(ordersWithItems);
-    }
+      return {
+        ...order,
+        items: orderItem
+      }
+    })
+
+    return response.status(200).json(ordersWithItems);
   }
 
   async update(request, response) {
