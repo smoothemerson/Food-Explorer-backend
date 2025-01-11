@@ -1,9 +1,10 @@
 <h1 align="center"> Food_Explorer_backend </h1>
 
 <p align="center">
-  <a href="#project">Project</a>
+  <a href="#project">Project</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#deployment">Deployment</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#postman">Postman</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#deployment">Deployment</a>
 </p>
 
 <p align="center">
@@ -28,10 +29,12 @@ This project was developed with the following technologies:
 
 You can import the Postman collection to test the API endpoints. Download the collection file from the following link:
 
-[Dishes Collection](./postman/dishes_collection.json)
-[Orders Collection](./postman/orders_collection.json)
-[Sesssions Collection](./postman/sessions_collection.json)
-[Users Collection](./postman/users_collection.json)
+You can import the Postman collections to test the API endpoints. Download the collection files from the following links:
+
+- [Dishes Collection](./postman/dishes_collection.json)
+- [Orders Collection](./postman/orders_collection.json)
+- [Sessions Collection](./postman/sessions_collection.json)
+- [Users Collection](./postman/users_collection.json)
 
 ## Deployment
 
