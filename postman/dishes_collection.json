@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "f28ccca8-9352-46a0-8f31-98aabebee040",
+		"name": "Dishes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32838753"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "random",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "just a random dish",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "main",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "66",
+							"type": "text"
+						},
+						{
+							"key": "ingredients",
+							"value": "tomato",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/emerson/Downloads/smurf.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://food-explorer-backend-whvz.onrender.com/dishes",
+					"protocol": "https",
+					"host": [
+						"food-explorer-backend-whvz",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"dishes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "random1234567",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "just a random dish",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "main",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "66",
+							"type": "text"
+						},
+						{
+							"key": "ingredients",
+							"value": "tomato",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/emerson/Downloads/smurf.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://food-explorer-backend-whvz.onrender.com/dishes/1",
+					"protocol": "https",
+					"host": [
+						"food-explorer-backend-whvz",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"dishes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://food-explorer-backend-whvz.onrender.com/dishes/1",
+					"protocol": "https",
+					"host": [
+						"food-explorer-backend-whvz",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"dishes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Index",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://food-explorer-backend-whvz.onrender.com/dishes?title=random",
+					"protocol": "https",
+					"host": [
+						"food-explorer-backend-whvz",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"dishes"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "random"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://food-explorer-backend-whvz.onrender.com/dishes/1",
+					"protocol": "https",
+					"host": [
+						"food-explorer-backend-whvz",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"dishes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
