@@ -18,6 +18,12 @@ class DishesController {
       throw new AppError("Este prato já existe.")
     }
 
+    const allowedCategories = ["meals", "desserts", "drinks"]
+
+    if (!allowedCategories.includes(category)) {
+      throw new AppError("Categoria inválida.")
+    }
+
     const imageFileName = request.file.filename
     const diskStorage = new DiskStorage()
     const filename = await diskStorage.saveFile(imageFileName)
