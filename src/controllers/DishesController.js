@@ -129,12 +129,12 @@ class DishesController {
 
   // Method to list all dishes
   async index(request, response) {
-    const { title, ingredients } = request.query
+    const { title, ingredients, category } = request.query
 
     let dishes
 
-    // Logic to filter dishes by title and ingredients
-    if (title || ingredients) {
+    // Logic to filter dishes by title, ingredients, and category
+    if (title || ingredients || category) {
       if (ingredients) {
         const splitIngredients = ingredients.split(",")
         const filterIngredients = splitIngredients.map(ingredient => ingredient.trim())
@@ -150,12 +150,22 @@ class DishesController {
           ])
           .whereLike("dishes.title", `%${title}%`)
           .whereIn("name", filterIngredients)
+          .modify(queryBuilder => {
+            if (category) {
+              queryBuilder.where("dishes.category", category)
+            }
+          })
           .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
           .groupBy("dishes.id")
           .orderBy("dishes.title")
       } else {
         dishes = await knex("dishes")
           .whereLike("title", `%${title}%`)
+          .modify(queryBuilder => {
+            if (category) {
+              queryBuilder.where("category", category)
+            }
+          })
           .orderBy("title")
       }
     } else {
