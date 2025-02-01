@@ -134,29 +134,32 @@ class DishesController {
     let dishes
 
     // Logic to filter dishes by title and ingredients
-    if (ingredients) {
-      const splitIngredients = ingredients.split(",")
-      const filterIngredients = splitIngredients.map(ingredient => ingredient.trim())
+    if (title || ingredients) {
+      if (ingredients) {
+        const splitIngredients = ingredients.split(",")
+        const filterIngredients = splitIngredients.map(ingredient => ingredient.trim())
 
-      dishes = await knex("ingredients")
-        .select([
-          "dishes.id",
-          "dishes.image",
-          "dishes.title",
-          "dishes.description",
-          "dishes.price",
-          "dishes.category"
-        ])
-        .whereLike("dishes.title", `%${title}%`)
-        .whereIn("name", filterIngredients)
-        .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
-        .groupBy("dishes.id")
-        .orderBy("dishes.title")
-    }
-    else {
-      dishes = await knex("dishes")
-        .whereLike("title", `%${title}%`)
-        .orderBy("title")
+        dishes = await knex("ingredients")
+          .select([
+            "dishes.id",
+            "dishes.image",
+            "dishes.title",
+            "dishes.description",
+            "dishes.price",
+            "dishes.category"
+          ])
+          .whereLike("dishes.title", `%${title}%`)
+          .whereIn("name", filterIngredients)
+          .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
+          .groupBy("dishes.id")
+          .orderBy("dishes.title")
+      } else {
+        dishes = await knex("dishes")
+          .whereLike("title", `%${title}%`)
+          .orderBy("title")
+      }
+    } else {
+      dishes = await knex("dishes").orderBy("title")
     }
 
     const dishesIngredients = await knex("ingredients")
