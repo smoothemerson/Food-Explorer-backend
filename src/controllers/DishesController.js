@@ -6,7 +6,8 @@ const DiskStorage = require("../providers/DiskStorage")
 class DishesController {
   // Create a new dish
   async create(request, response) {
-    const { title, description, category, price, ingredients } = request.body
+    const { title, description, category, price, ingredients, image } = request.body
+    const imageFileName = request.file ? request.file.filename : null
 
     if (!title || !description || !category || !price || !ingredients) {
       throw new AppError("Preencha os campos necessários.")
@@ -24,7 +25,6 @@ class DishesController {
       throw new AppError("Categoria inválida.")
     }
 
-    const imageFileName = request.file.filename
     const diskStorage = new DiskStorage()
     const filename = await diskStorage.saveFile(imageFileName)
 
@@ -67,6 +67,7 @@ class DishesController {
   // Method to update a dish
   async update(request, response) {
     const { title, description, category, price, ingredients, image } = request.body
+    const imageFileName = request.file ? request.file.filename : null;
     const { id } = request.params
 
     const allowedCategories = ["meals", "desserts", "drinks"]
@@ -75,19 +76,16 @@ class DishesController {
       throw new AppError("Categoria inválida.")
     }
 
-    const imageFileName = request.file.filename
-
     const diskStorage = new DiskStorage()
 
     const dish = await knex("dishes").where({ id }).first()
 
-    if (dish.image) {
-      await diskStorage.deleteFile(dish.image)
+    if (dish.image && imageFileName) {
+      await diskStorage.deleteFile(dish.image);
+      const filename = await diskStorage.saveFile(imageFileName);
+      dish.image = filename;
     }
 
-    const filename = await diskStorage.saveFile(imageFileName)
-
-    dish.image = image ?? filename
     dish.title = title ?? dish.title
     dish.description = description ?? dish.description
     dish.category = category ?? dish.category
