@@ -40,15 +40,15 @@ class DishesController {
 
     // Logic to insert ingredients
     
-    const hasOnlyOneIngredient = typeof(ingredients) === "string"
+    const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
 
     let ingredientsInsert
 
     if (hasOnlyOneIngredient) {
       ingredientsInsert = {
-        name: ingredients,
+        name: Array.isArray(ingredients) ? ingredients[0] : ingredients,
         dish_id
-      }
+      };
     }
     else if (ingredients.length > 1) {
       ingredientsInsert = ingredients.map(name => {
@@ -93,15 +93,15 @@ class DishesController {
 
     await knex("dishes").where({ id }).update(dish)
 
-    const hasOnlyOneIngredient = typeof(ingredients) === "string"
+    const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
 
     let ingredientsInsert
 
     if (hasOnlyOneIngredient) {
       ingredientsInsert = {
-        name: ingredients,
-        dish_id: dish.id
-      }
+        name: Array.isArray(ingredients) ? ingredients[0] : ingredients,
+        dish_id
+      };
     }
     else if (ingredients.length > 1) {
       ingredientsInsert = ingredients.map(ingredient => {
