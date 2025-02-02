@@ -39,9 +39,6 @@ class DishesController {
     const dish_id = dish.id
 
     // Logic to insert ingredients
-    
-    const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
-
     let ingredientsInsert = [];
 
     if (typeof ingredients === "string") {
@@ -88,9 +85,6 @@ class DishesController {
     dish.price = price ?? dish.price
 
     await knex("dishes").where({ id }).update(dish)
-
-    const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
-
     await knex("ingredients").where({ dish_id: dish.id }).delete();
 
     let ingredientsInsert = [];
