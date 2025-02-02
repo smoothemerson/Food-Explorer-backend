@@ -69,6 +69,12 @@ class DishesController {
     const { title, description, category, price, ingredients, image } = request.body
     const { id } = request.params
 
+    const allowedCategories = ["meals", "desserts", "drinks"]
+
+    if (category && !allowedCategories.includes(category)) {
+      throw new AppError("Categoria inválida.")
+    }
+
     const imageFileName = request.file.filename
 
     const diskStorage = new DiskStorage()
