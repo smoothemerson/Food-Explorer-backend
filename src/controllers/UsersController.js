@@ -89,6 +89,29 @@ class UsersController {
 
     return response.status(201).json()
   }
+
+  // Mudar o perfil do usuário (admin/user)
+  async patch(request, response) {
+    const { is_admin } = request.body;
+    const user_id = request.user.id;
+
+    const database = await sqliteConnection()
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id])
+
+    if (!user) {
+      throw new AppError("Usuário não encontrado")
+    }
+
+    await database.run(`
+      UPDATE users SET 
+      is_admin = ?,
+      updated_at = DATETIME('now')
+      WHERE id = ?`,
+      [is_admin, user_id]
+    )
+
+    return response.status(201).json()
+  }
 }
 
 module.exports = UsersController;
