@@ -92,7 +92,7 @@ class UsersController {
 
   // Mudar o perfil do usuário (admin/user)
   async patch(request, response) {
-    const { is_admin } = request.body;
+    const { isAdmin } = request.body;
     const user_id = request.user.id;
 
     const database = await sqliteConnection()
@@ -104,10 +104,10 @@ class UsersController {
 
     await database.run(`
       UPDATE users SET 
-      is_admin = ?,
+      isAdmin = ?,
       updated_at = DATETIME('now')
       WHERE id = ?`,
-      [is_admin, user_id]
+      [isAdmin, user_id]
     )
 
     return response.status(201).json()
