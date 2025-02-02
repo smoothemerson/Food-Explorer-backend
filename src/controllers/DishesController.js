@@ -42,24 +42,20 @@ class DishesController {
     
     const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
 
-    let ingredientsInsert
+    let ingredientsInsert = [];
 
-    if (hasOnlyOneIngredient) {
-      ingredientsInsert = {
-        name: Array.isArray(ingredients) ? ingredients[0] : ingredients,
-        dish_id
-      };
-    }
-    else if (ingredients.length > 1) {
-      ingredientsInsert = ingredients.map(name => {
-        return {
-          name,
-          dish_id
-        }
-      })
+    if (typeof ingredients === "string") {
+      try {
+        ingredientsInsert = JSON.parse(ingredients).map(name => ({ name, dish_id }));
+      } catch (error) {
+        throw new AppError("Formato inválido para ingredientes.");
+      }
+    } else if (Array.isArray(ingredients)) {
+      ingredientsInsert = ingredients.map(name => ({ name, dish_id }));
     }
 
-    await knex("ingredients").insert(ingredientsInsert)
+    await knex("ingredients").insert(ingredientsInsert);
+
 
     return response.status(201).json()
   }
@@ -95,25 +91,21 @@ class DishesController {
 
     const hasOnlyOneIngredient = Array.isArray(ingredients) ? ingredients.length === 1 : typeof ingredients === "string";
 
-    let ingredientsInsert
+    await knex("ingredients").where({ dish_id: dish.id }).delete();
 
-    if (hasOnlyOneIngredient) {
-      ingredientsInsert = {
-        name: Array.isArray(ingredients) ? ingredients[0] : ingredients,
-        dish_id
-      };
-    }
-    else if (ingredients.length > 1) {
-      ingredientsInsert = ingredients.map(ingredient => {
-        return {
-          dish_id: dish.id,
-          name: ingredient
-        }
-      })
+    let ingredientsInsert = [];
+
+    if (typeof ingredients === "string") {
+      try {
+        ingredientsInsert = JSON.parse(ingredients).map(name => ({ name, dish_id: dish.id }));
+      } catch (error) {
+        throw new AppError("Formato inválido para ingredientes.");
+      }
+    } else if (Array.isArray(ingredients)) {
+      ingredientsInsert = ingredients.map(name => ({ name, dish_id: dish.id }));
     }
 
-    await knex("ingredients").where({ dish_id: dish.id }).delete()
-    await knex("ingredients").where({ dish_id: dish.id }).insert(ingredientsInsert)
+    await knex("ingredients").insert(ingredientsInsert);
 
     return response.status(201).json()
   }
@@ -123,12 +115,18 @@ class DishesController {
     const { id } = request.params
 
     const dish = await knex("dishes").where({ id }).first()
-    const ingredients = await knex("ingredients").where({ dish_id: id }).orderBy("name")
+    let ingredients = await knex("ingredients").where({ dish_id: id }).orderBy("name");
+
+    // Garante que ingredientes não sejam strings JSON
+    ingredients = ingredients.map(ingredient => ({
+      ...ingredient,
+      name: typeof ingredient.name === "string" ? ingredient.name.replace(/[\[\]"]+/g, '') : ingredient.name
+    }));
 
     return response.json({
       ...dish,
       ingredients
-    })
+    });
   }
 
   // Method to list all dishes
